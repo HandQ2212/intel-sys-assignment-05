@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# LaTeX Auxiliary & Build Files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Dataset directories & symlinks (Datasets should be downloaded from Kaggle links in README)
+dataset/
+dataset
+*.csv
+*.zip
+*.tar.gz
+
+# Generator & scratch helper scripts
+_gen_*.py
+train_and_evaluate.py
+
+# Test / Temporary files
+figures/test.png
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

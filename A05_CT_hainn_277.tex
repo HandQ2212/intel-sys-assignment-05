@@ -212,10 +212,11 @@ Toàn bộ 12 mô hình được huấn luyện trên nền tảng PyTorch tăng
 Nhằm đảm bảo tính tái lập kết quả khoa học (Reproducibility), toàn bộ mã nguồn của Assignment 05 được phân bổ dạng module trực quan gồm 13 file Jupyter Notebook (\texttt{.ipynb}), 1 script huấn luyện thống nhất \texttt{run\_experiments.py}, toàn bộ đồ thị thực nghiệm tại thư mục \texttt{figures/} và các tệp JSON lưu chỉ số chi tiết tại \texttt{results/}.
 
 \subsection*{1. Kho Lưu Trữ Mã Nguồn Chính Thức}
-\begin{mybox}{Thông Tin Kho Chứa Dự Án}
+\begin{mybox}{Thông Tin Kho Chứa Dự Án \& Đường Dẫn Trực Tuyến}
     \begin{itemize}[leftmargin=*]
-        \item \textbf{Thư mục dự án:} \texttt{intel-sys-assignment-05/}
-        \item \textbf{Tác giả thực hiện:} Nguyễn Nam Hải (Mã SV: B23DCCN277 -- Lớp D23CTPM01)
+        \item \textbf{Kho lưu trữ GitHub chính thức:} \href{https://github.com/HandQ2212/intel-sys-assignment-05}{\url{https://github.com/HandQ2212/intel-sys-assignment-05}} \cite{repo_github}
+        \item \textbf{Lệnh Clone:} \texttt{git clone https://github.com/HandQ2212/intel-sys-assignment-05.git}
+        \item \textbf{Tác giả thực hiện:} Nguyễn Nam Hải (Mã SV: B23DCCN277 -- Lớp D23CTPM01 -- Nhóm CT01)
         \item \textbf{Cấu trúc sổ tay Notebook (13 files):}
         \begin{itemize}
             \item CIFAR-10 (4 files): \texttt{cifar10\_basic\_cnn.ipynb}, \texttt{cifar10\_vgg\_cnn.ipynb}, \texttt{cifar10\_resnet\_cnn.ipynb}, \texttt{cifar10\_attention\_cnn.ipynb}.
@@ -230,18 +231,18 @@ Nhằm đảm bảo tính tái lập kết quả khoa học (Reproducibility), t
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabularx}{\textwidth}{l L{4.5cm} X}
+\begin{tabularx}{\textwidth}{l L{3.2cm} X L{4.2cm}}
 \toprule
-\textbf{Bộ dữ liệu} & \textbf{Quy mô \& Kiểu dữ liệu} & \textbf{Đặc tả Đầu vào Mạng CNN} \\
+\textbf{Bộ dữ liệu} & \textbf{Quy mô \& Kiểu} & \textbf{Đặc tả Đầu vào Mạng CNN} & \textbf{Nguồn / Kaggle Link} \\
 \midrule
-\textbf{1. CIFAR-10} & 60,000 ảnh màu RGB $32 \times 32$, 10 lớp tự nhiên & Tensor 2D: $(B, 3, 32, 32)$ qua chuẩn hóa mean/std \\
+\textbf{1. CIFAR-10} & 60,000 ảnh màu RGB $32 \times 32$, 10 lớp tự nhiên & Tensor 2D: $(B, 3, 32, 32)$ qua chuẩn hóa mean/std & \href{https://www.kaggle.com/datasets/ayush1220/cifar10}{\texttt{kaggle: ayush1220/...}} \cite{data_cifar10} \\
 \addlinespace
-\textbf{2. MNIST Numbers} & 400,000 ảnh mở rộng, $28 \times 28$ Grayscale (10 chữ số) & Tensor 2D: $(B, 1, 28, 28)$ qua chuẩn hóa z-score \\
+\textbf{2. MNIST} & 400,000 ảnh mở rộng, $28 \times 28$ Grayscale & Tensor 2D: $(B, 1, 28, 28)$ qua chuẩn hóa z-score & \href{https://www.kaggle.com/datasets/alexandrelemercier/400k-augmented-mnist-extended-handwritten-digits}{\texttt{kaggle: alexandrelemercier/...}} \cite{data_mnist} \\
 \addlinespace
-\textbf{3. Diabetes CDC} & 324,372 bản ghi, 21 thuộc tính lâm sàng (Nhãn 0/1) & Tensor 1D: $(B, 1, 21)$ qua StandardScaler \\
+\textbf{3. Diabetes} & 324,372 bản ghi, 21 thuộc tính lâm sàng (Nhãn 0/1) & Tensor 1D: $(B, 1, 21)$ qua StandardScaler & \href{https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset}{\texttt{kaggle: alexteboul/...}} \cite{data_diabetes} \\
 \bottomrule
 \end{tabularx}
-\caption{Tổng hợp đặc tả 3 bộ dữ liệu thực nghiệm trong Assignment 05}
+\caption{Tổng hợp đặc tả và nguồn Kaggle của 3 bộ dữ liệu thực nghiệm trong Assignment 05}
 \label{tab:datasets_spec}
 \end{table}
 
@@ -514,6 +515,8 @@ Nén thông tin trên trục kênh bằng cách tính trung bình và cực đ�
 \subsection{Tập dữ liệu ảnh màu tự nhiên CIFAR-10}
 Bộ dữ liệu CIFAR-10 (Canadian Institute for Advanced Research) gồm 60,000 ảnh màu kích thước nhỏ $32 \times 32$ pixels với 3 kênh màu RGB, được chuẩn hóa chia thành 10 lớp cân bằng hoàn hảo (mỗi lớp 6,000 ảnh): \textit{airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck}.
 
+\noindent\textbf{Nguồn dữ liệu Kaggle:} \href{https://www.kaggle.com/datasets/ayush1220/cifar10}{\url{https://www.kaggle.com/datasets/ayush1220/cifar10}} \cite{data_cifar10}.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/cifar10_samples.png}
@@ -528,6 +531,8 @@ Bộ dữ liệu CIFAR-10 (Canadian Institute for Advanced Research) gồm 60,00
 \subsection{Tập dữ liệu ảnh chữ số viết tay MNIST}
 MNIST (Modified National Institute of Standards and Technology) là tập chuẩn đối sánh kinh điển trong Computer Vision gồm ảnh đơn sắc Grayscale kích thước $28 \times 28$, biểu diễn các chữ số từ 0 đến 9. 
 
+\noindent\textbf{Nguồn dữ liệu Kaggle:} \href{https://www.kaggle.com/datasets/alexandrelemercier/400k-augmented-mnist-extended-handwritten-digits}{\url{https://www.kaggle.com/datasets/alexandrelemercier/400k-augmented-mnist-extended-handwritten-digits}} \cite{data_mnist}.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/mnist_samples.png}
@@ -541,6 +546,8 @@ MNIST (Modified National Institute of Standards and Technology) là tập chuẩ
 
 \subsection{Tập dữ liệu bảng lâm sàng Diabetes CDC (Thực nghiệm Sư phạm với 1D CNN)}
 Tập dữ liệu Diabetes Health Indicators Dataset (nguồn CDC BRFSS) chứa 21 thuộc tính lâm sàng và lối sống của người dân (HighBP, HighChol, BMI, Smoker, Stroke, Age, GenHlth,...). Nhãn mục tiêu là \texttt{Diabetes\_binary} (0: Không mắc đái tháo đường, 1: Có mắc hoặc tiền đái tháo đường).
+
+\noindent\textbf{Nguồn dữ liệu Kaggle:} \href{https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset}{\url{https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset}} \cite{data_diabetes}.
 
 \begin{figure}[htbp]
 \centering
@@ -855,6 +862,10 @@ Sinh viên xin trân trọng gửi lời cảm ơn sâu sắc tới **PGS.TS. Tr
 \bibitem{krizhevsky2009learning} Krizhevsky, A. (2009), "Learning multiple layers of features from tiny images", \textit{Technical report, University of Toronto}.
 \bibitem{lecun1998gradient} LeCun, Y., Bottou, L., Bengio, Y., \& Haffner, P. (1998), "Gradient-based learning applied to document recognition", \textit{Proceedings of the IEEE}, 86(11), pp. 2278--2324.
 \bibitem{ioffe2015batch} Ioffe, S., \& Szegedy, C. (2015), "Batch normalization: Accelerating deep network training by reducing internal covariate shift", \textit{International Conference on Machine Learning (ICML)}, pp. 448--456.
+\bibitem{data_cifar10} Ayush Tiwari, \textit{CIFAR-10 Image Classification Dataset (Color 32x32 RGB)}, Kaggle Dataset: \url{https://www.kaggle.com/datasets/ayush1220/cifar10}.
+\bibitem{data_mnist} Alexandre Lemercier, \textit{400k Augmented MNIST Extended Handwritten Digits Dataset}, Kaggle Dataset: \url{https://www.kaggle.com/datasets/alexandrelemercier/400k-augmented-mnist-extended-handwritten-digits}.
+\bibitem{data_diabetes} Alex Teboul / CDC BRFSS, \textit{Diabetes Health Indicators Dataset (Binary Classification)}, Kaggle Dataset: \url{https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset}.
+\bibitem{repo_github} Nguyễn Nam Hải, \textit{Kho lưu trữ mã nguồn và thực nghiệm Assignment 05 -- LTHTTM}, GitHub Repository: \url{https://github.com/HandQ2212/intel-sys-assignment-05}.
 \end{thebibliography}
 
 \end{document}

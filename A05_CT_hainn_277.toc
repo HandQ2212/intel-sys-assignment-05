@@ -1,0 +1,41 @@
+\babel@toc {vietnamese}{}\relax 
+\contentsline {section}{DANH MỤC HÌNH VẼ}{3}{section*.1}%
+\contentsline {section}{DANH MỤC BẢNG BIỂU}{3}{section*.2}%
+\contentsline {section}{TÓM TẮT BÁO CÁO (ABSTRACT)}{4}{section*.3}%
+\contentsline {section}{TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT}{5}{section*.4}%
+\contentsline {section}{\numberline {1}Cơ sở lý thuyết giải tích và bản chất hợp hàm của CNN}{7}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Deep Learning dưới góc nhìn Hợp hàm (Function Composition)}{7}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Toán tử tích chập (Convolution) và Tương quan chéo (Cross-Correlation)}{7}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Các hàm thành phần cốt lõi trong CNN}{8}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}1. Tích chập nhiều kênh (Multi-Channel Convolution)}{8}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}2. Hàm kích hoạt phi tuyến ReLU (Rectified Linear Unit)}{8}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3}3. Chuẩn hóa theo lô (Batch Normalization)}{8}{subsubsection.1.3.3}%
+\contentsline {subsubsection}{\numberline {1.3.4}4. Phép gộp không gian (Max Pooling \& Average Pooling)}{8}{subsubsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.4}Biểu diễn Hợp hàm hoàn chỉnh của Basic CNN}{9}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Các mô hình phát triển của CNN: VGG, ResNet và Attention CBAM}{10}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Mô hình VGG-Style: Triết lý xếp chồng $3 \times 3$ và Độ sâu biểu diễn}{10}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Chứng minh toán học về tính tương đương trường tiếp nhận (Receptive Field)}{10}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Lợi thế về số lượng tham số và tính phi tuyến}{10}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}Mô hình ResNet-Style: Giải quyết hiện tượng suy thoái (Degradation Problem)}{11}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Cơ chế bảo toàn gradient qua đường truyền thẳng Identity}{12}{subsubsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.3}Mô hình Attention CNN (CBAM): Tự động định hướng sự tập trung}{12}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}1. Chú ý theo Kênh (Channel Attention -- "WHAT is important?")}{13}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}2. Chú ý theo Không gian (Spatial Attention -- "WHERE is important?")}{13}{subsubsection.2.3.2}%
+\contentsline {section}{\numberline {3}Khảo sát 3 tập dữ liệu thực nghiệm}{14}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Tập dữ liệu ảnh màu tự nhiên CIFAR-10}{14}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Tập dữ liệu ảnh chữ số viết tay MNIST}{14}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Tập dữ liệu bảng lâm sàng Diabetes CDC (Thực nghiệm Sư phạm với 1D CNN)}{15}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Thiết kế và cài đặt 12 mô hình PyTorch}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Kiến trúc 4 mô hình trên CIFAR-10 và MNIST (CNN 2D)}{17}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Kiến trúc 4 mô hình 1D CNN trên Dữ liệu Bảng Diabetes}{18}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Kết quả thực nghiệm, đối chuẩn số liệu và phân tích chuyên sâu}{19}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Bảng tổng hợp đối chuẩn toàn diện 12 thực nghiệm}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Phân tích kết quả trên từng tập dữ liệu}{19}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}1. Tập dữ liệu CIFAR-10}{19}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}2. Tập dữ liệu MNIST}{21}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}3. Tập dữ liệu Diabetes CDC (1D CNN)}{23}{subsubsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.3}So sánh tổng hợp và Phân tích đường biên Pareto}{24}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Kết luận chung và bài học phương pháp luận}{28}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Các kết luận khoa học chính}{28}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Lời cảm ơn}{28}{subsection.6.2}%
+\contentsline {section}{TÀI LIỆU THAM KHẢO}{29}{section*.5}%

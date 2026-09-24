@@ -1,0 +1,860 @@
+\documentclass[12pt,a4paper]{article}
+
+% ==============================================================================
+% GÓI THƯ VIỆN CƠ BẢN VÀ HỖ TRỢ TIẾNG VIỆT
+% ==============================================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs, multirow, makecell, tabularx, longtable, array}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=25mm,
+    right=20mm,
+    top=25mm,
+    bottom=25mm
+}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{float}
+
+% Cấu hình đường dẫn thư mục ảnh
+\graphicspath{{./}{figures/}}
+
+% Cấu hình Hyperlink
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!75!black,
+    citecolor=red!75!black,
+    urlcolor=teal!80!black
+}
+
+% Cấu hình Header & Footer
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Học viện Công nghệ Bưu chính Viễn thông -- PTIT}}
+\fancyhead[R]{\small\textit{Báo cáo Kỹ thuật Assignment 05 -- LTHTTM}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Cấu hình Code Listing
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue!80!black}\bfseries,
+    commentstyle=\color{green!50!black}\itshape,
+    stringstyle=\color{red!70!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    backgroundcolor=\color{gray!5},
+    frame=single,
+    rulecolor=\color{gray!30},
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+% Định dạng tiêu đề các mục
+\titleformat{\section}{\large\bfseries\color{blue!85!black}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{cyan!75!black}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\small\bfseries\color{black}}{\thesubsubsection}{1em}{}
+
+% Khối ghi chú nổi bật
+\newtcolorbox{mybox}[1]{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries,
+    title=#1,
+    arc=2mm,
+    boxrule=1pt
+}
+
+% Cấu hình cột bảng tự co giãn và căn lề
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+% ==============================================================================
+% BẮT ĐẦU TÀI LIỆU
+% ==============================================================================
+\begin{document}
+
+% ==============================================================================
+% TRANG BÌA CHUẨN KHUNG VIỀN CỔ ĐIỂN VÀ HỌA TIẾT 4 GÓC THEO FILE DOCX
+% ==============================================================================
+\begin{titlepage}
+    \begin{tikzpicture}[remember picture, overlay]
+        % 1. Đường viền khung ngoài dày
+        \draw[line width=2.2pt, color=black]
+            ([xshift=15mm, yshift=-15mm]current page.north west)
+            rectangle
+            ([xshift=-15mm, yshift=15mm]current page.south east);
+        
+        % 2. Đường viền khung trong mảnh
+        \draw[line width=0.8pt, color=black]
+            ([xshift=17.5mm, yshift=-17.5mm]current page.north west)
+            rectangle
+            ([xshift=-17.5mm, yshift=17.5mm]current page.south east);
+    \end{tikzpicture}
+
+    \centering
+    \vspace*{0.2cm}
+    {\large \textbf{HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG}}\\[0.25cm]
+    {\large \textbf{KHOA CÔNG NGHỆ THÔNG TIN 1}}\\[0.2cm]
+    \rule{5cm}{1pt}\\[0.9cm]
+
+    % Logo PTIT
+    \begin{center}
+        \IfFileExists{figures/logo_ptit.png}{%
+            \includegraphics[width=3.4cm, height=4.2cm, keepaspectratio]{figures/logo_ptit.png}
+        }{%
+            \begin{tcolorbox}[colback=red!5!white, colframe=red!75!black, width=3.8cm, height=3.8cm, arc=2mm, halign=center, valign=center]
+                \Large \textbf{\color{red!80!black}PTIT}\\[0.1cm]
+                \footnotesize \textbf{\color{black}LOGO}
+            \end{tcolorbox}
+        }
+    \end{center}
+
+    \vspace{0.6cm}
+
+    {\Large \textbf{BÁO CÁO KỸ THUẬT ASSIGNMENT 05}}\\[0.3cm]
+    {\large \textbf{MÔN HỌC: PHÁT TRIỂN CÁC HỆ THỐNG THÔNG MINH}}\\[0.5cm]
+    {\Large \textbf{\color{blue!85!black}MẠNG NƠ-RON TÍCH CHẬP (CNN) TỪ KHÁI NIỆM HỢP HÀM ĐẾN CÁC KIẾN TRÚC PHÁT TRIỂN (VGG, RESNET, ATTENTION CBAM)}}\\[0.3cm]
+    {\normalsize \textit{Nghiên cứu Giải tích, Hiện thực Hóa Mã nguồn và Đối chuẩn Thực nghiệm trên 3 Miền Dữ liệu (CIFAR-10, MNIST, Diabetes CDC)}}
+
+    \vspace{0.8cm}
+
+    \begin{flushleft}
+        \hspace{1.6cm}
+        \begin{tabular}{p{5.0cm} p{0.5cm} l}
+            \textbf{Giảng viên hướng dẫn} & : & \textbf{PGS.TS. Trần Đình Quế} \\[0.3cm]
+            \textbf{Lớp}                  & : & \textbf{D23CTPM01} \\[0.3cm]
+            \textbf{Nhóm học phần}        & : & \textbf{CT01} \\[0.3cm]
+            \textbf{Thành viên thực hiện} & : & \textbf{Nguyễn Nam Hải} \\[0.3cm]
+            \textbf{Mã sinh viên}         & : & \textbf{B23DCCN277} \\[0.3cm]
+        \end{tabular}
+    \end{flushleft}
+
+    \vfill
+    {\large \textbf{Hà Nội -- 2026}}
+    \vspace*{0.3cm}
+\end{titlepage}
+
+% ==============================================================================
+% MỤC LỤC BÁO CÁO KỸ THUẬT
+% ==============================================================================
+\newpage
+\renewcommand{\contentsname}{MỤC LỤC BÁO CÁO KỸ THUẬT ASSIGNMENT 05}
+\tableofcontents
+\newpage
+
+% ==============================================================================
+% DANH MỤC HÌNH VẼ & BẢNG BIỂU
+% ==============================================================================
+\phantomsection
+\addcontentsline{toc}{section}{DANH MỤC HÌNH VẼ}
+\listoffigures
+
+\vspace{0.8cm}
+
+\phantomsection
+\addcontentsline{toc}{section}{DANH MỤC BẢNG BIỂU}
+\listoftables
+
+\newpage
+
+% ==============================================================================
+% TÓM TẮT BÁO CÁO (ABSTRACT)
+% ==============================================================================
+\phantomsection
+\addcontentsline{toc}{section}{TÓM TẮT BÁO CÁO (ABSTRACT)}
+\section*{TÓM TẮT BÁO CÁO (ABSTRACT)}
+
+Báo cáo Kỹ thuật Assignment 05 trình bày nghiên cứu hệ thống và khảo sát thực nghiệm chuyên sâu về Mạng nơ-ron tích chập (Convolutional Neural Network -- CNN), lấy trọng tâm là **bản chất giải tích của Deep Learning dưới góc nhìn Hợp hàm (Function Composition)** và sự tiến hóa của các kiến trúc mạng hiện đại. Xuất phát từ định đề của PGS.TS. Trần Đình Quế: \textit{"Deep Learning là sự kết hợp (hợp) của các hàm số toán học có tham số"}, báo cáo giải mã cơ chế hoạt động của các toán tử hạt nhân trong CNN gồm tích chập (Convolution), phi tuyến (ReLU), chuẩn hóa theo lô (Batch Normalization) và gộp không gian (Pooling). 
+
+Tiếp đó, báo cáo khảo sát tuần tự 3 bước nhảy vọt kiến trúc: (1) **VGG-style** với triết lý xếp chồng các kernel nhỏ $3 \times 3$ thay thế kernel lớn nhằm tối ưu hóa tham số và gia tăng tính phi tuyến; (2) **ResNet-style** với cơ chế học phần dư (Residual Learning) và đường truyền tắt (Skip Connection) giải quyết triệt để hiện tượng suy thoái (Degradation Problem) khi tăng độ sâu mạng; và (3) **Attention CNN (CBAM)** với sự kết hợp hai module chú ý Kênh (Channel Attention -- "WHAT") và chú ý Không gian (Spatial Attention -- "WHERE") giúp mạng tự động tinh lọc đặc trưng trọng yếu.
+
+Về phương diện thực nghiệm, toàn bộ 4 kiến trúc (Basic CNN, VGG, ResNet, CBAM) được thiết kế, huấn luyện và đánh giá trên 3 tập dữ liệu thực tế mang đặc tính tô-pô hoàn toàn khác biệt:
+\begin{enumerate}[leftmargin=*]
+    \item **CIFAR-10**: Ảnh màu tự nhiên 3 kênh RGB ($32 \times 32$), 10 lớp vật thể với độ phức tạp phông nền cao.
+    \item **MNIST**: Ảnh chữ số viết tay đơn sắc Grayscale ($28 \times 28$), 10 lớp, đại diện cho bài toán thị giác máy tính kinh điển.
+    \item **Diabetes CDC (Tabular)**: Dữ liệu y tế dạng bảng gồm 21 thuộc tính lâm sàng và nhãn nhị phân. Bài toán này đóng vai trò một **"teaching experiment"** (thực nghiệm sư phạm) nhằm khảo sát khả năng tổng quát hóa của phép tích chập 1D trên dữ liệu phi không gian.
+\end{enumerate}
+
+Toàn bộ 12 mô hình được huấn luyện trên nền tảng PyTorch tăng tốc GPU Apple Silicon Metal (\texttt{mps}), kết hợp script tự động kết xuất các số liệu định lượng (Accuracy, F1-score, Loss, Parameters, Execution Time), đường cong huấn luyện, ma trận nhầm lẫn (Confusion Matrix), đường cong ROC-AUC và phân tích đường biên Pareto hiệu năng.
+
+\newpage
+
+% ==============================================================================
+% TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT NHANH (QUICKSTART GUIDE)
+% ==============================================================================
+\phantomsection
+\addcontentsline{toc}{section}{TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT}
+\section*{TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT}
+\markboth{TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT}{TÀI NGUYÊN THỰC NGHIỆM VÀ HƯỚNG DẪN CÀI ĐẶT}
+
+Nhằm đảm bảo tính tái lập kết quả khoa học (Reproducibility), toàn bộ mã nguồn của Assignment 05 được phân bổ dạng module trực quan gồm 13 file Jupyter Notebook (\texttt{.ipynb}), 1 script huấn luyện thống nhất \texttt{run\_experiments.py}, toàn bộ đồ thị thực nghiệm tại thư mục \texttt{figures/} và các tệp JSON lưu chỉ số chi tiết tại \texttt{results/}.
+
+\subsection*{1. Kho Lưu Trữ Mã Nguồn Chính Thức}
+\begin{mybox}{Thông Tin Kho Chứa Dự Án}
+    \begin{itemize}[leftmargin=*]
+        \item \textbf{Thư mục dự án:} \texttt{intel-sys-assignment-05/}
+        \item \textbf{Tác giả thực hiện:} Nguyễn Nam Hải (Mã SV: B23DCCN277 -- Lớp D23CTPM01)
+        \item \textbf{Cấu trúc sổ tay Notebook (13 files):}
+        \begin{itemize}
+            \item CIFAR-10 (4 files): \texttt{cifar10\_basic\_cnn.ipynb}, \texttt{cifar10\_vgg\_cnn.ipynb}, \texttt{cifar10\_resnet\_cnn.ipynb}, \texttt{cifar10\_attention\_cnn.ipynb}.
+            \item MNIST (4 files): \texttt{mnist\_basic\_cnn.ipynb}, \texttt{mnist\_vgg\_cnn.ipynb}, \texttt{mnist\_resnet\_cnn.ipynb}, \texttt{mnist\_attention\_cnn.ipynb}.
+            \item Diabetes CDC (4 files): \texttt{diabetes\_basic\_cnn.ipynb}, \texttt{diabetes\_vgg\_cnn.ipynb}, \texttt{diabetes\_resnet\_cnn.ipynb}, \texttt{diabetes\_attention\_cnn.ipynb}.
+            \item Tổng hợp \& Đối chuẩn (1 file): \texttt{comparison.ipynb}.
+        \end{itemize}
+    \end{itemize}
+\end{mybox}
+
+\subsection*{2. Danh Mục Tập Dữ Liệu Thực Nghiệm}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l L{4.5cm} X}
+\toprule
+\textbf{Bộ dữ liệu} & \textbf{Quy mô \& Kiểu dữ liệu} & \textbf{Đặc tả Đầu vào Mạng CNN} \\
+\midrule
+\textbf{1. CIFAR-10} & 60,000 ảnh màu RGB $32 \times 32$, 10 lớp tự nhiên & Tensor 2D: $(B, 3, 32, 32)$ qua chuẩn hóa mean/std \\
+\addlinespace
+\textbf{2. MNIST Numbers} & 400,000 ảnh mở rộng, $28 \times 28$ Grayscale (10 chữ số) & Tensor 2D: $(B, 1, 28, 28)$ qua chuẩn hóa z-score \\
+\addlinespace
+\textbf{3. Diabetes CDC} & 324,372 bản ghi, 21 thuộc tính lâm sàng (Nhãn 0/1) & Tensor 1D: $(B, 1, 21)$ qua StandardScaler \\
+\bottomrule
+\end{tabularx}
+\caption{Tổng hợp đặc tả 3 bộ dữ liệu thực nghiệm trong Assignment 05}
+\label{tab:datasets_spec}
+\end{table}
+
+\subsection*{3. Quy Trình Thực Thi Huấn Luyện}
+\begin{lstlisting}[language=bash, caption={Lệnh khởi chạy huấn luyện toàn diện 12 mô hình từ terminal}]
+# Buoc 1: Chuyen den thu muc du an
+cd /Users/handq2212/DaiHoc/Nam4/LTHTTM/intel-sys-assignment-05
+
+# Buoc 2: Chay script huan luyen thong nhat (MPS GPU Metal tren Apple Silicon)
+/opt/anaconda3/bin/python run_experiments.py
+
+# Buoc 3: Xem so sanh tong hop tren Jupyter Notebook
+jupyter notebook comparison.ipynb
+\end{lstlisting}
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 1: CƠ SỞ LÝ THUYẾT & BẢN CHẤT HỢP HÀM CỦA CNN
+% ==============================================================================
+\section{Cơ sở lý thuyết giải tích và bản chất hợp hàm của CNN}
+
+\subsection{Deep Learning dưới góc nhìn Hợp hàm (Function Composition)}
+Một trong những nguyên lý triết học và toán học quan trọng nhất được truyền tải trong bài giảng của PGS.TS. Trần Đình Quế là: \textbf{Toàn bộ kiến trúc mạng nơ-ron học sâu (Deep Neural Network) có thể quy về một phép hợp các hàm số toán học có tham số}.
+
+Giả sử mạng gồm $L$ tầng biến đổi, ánh xạ từ không gian đầu vào $\mathcal{X}$ sang không gian đầu ra $\mathcal{Y}$. Quá trình truyền thẳng (Forward Propagation) được mô tả chính xác bởi biểu thức:
+\begin{equation}
+    \hat{y} = (f_L \circ f_{L-1} \circ \cdots \circ f_2 \circ f_1)(X; \Theta)
+    \label{eq:function_composition}
+\end{equation}
+Trong đó $\Theta = \{\theta_1, \theta_2, \dots, \theta_L\}$ là tập hợp toàn bộ các tham số khả vi (trọng số $W$ và độ chệch $b$) của từng tầng. Mỗi hàm thành phần $f_l$ nhận đầu ra của tầng trước $h_{l-1}$ và sinh ra biểu diễn ẩn $h_l$:
+\begin{equation}
+    h_l = f_l(h_{l-1}; \theta_l), \quad \text{với } h_0 = X, \quad \hat{y} = h_L
+\end{equation}
+
+Nếu tất cả các hàm $f_l$ đều là hàm tuyến tính thuần túy $f_l(h) = W_l h + b_l$, thì toàn bộ hợp hàm sẽ suy biến thành một phép biến đổi afin duy nhất:
+\begin{equation}
+    (f_L \circ \cdots \circ f_1)(X) = \tilde{W} X + \tilde{b}
+\end{equation}
+Điều này khiến mạng sâu mất đi hoàn toàn ưu thế so với một mô hình hồi quy tuyến tính đơn tầng. Do đó, sự hiện diện của các **hàm phi tuyến tính xen kẽ** (Nonlinear Activation Functions) là điều kiện tiên quyết để tạo nên không gian biểu diễn phức tạp.
+
+\subsection{Toán tử tích chập (Convolution) và Tương quan chéo (Cross-Correlation)}
+Trong miền xử lý tín hiệu liên tục, phép tích chập giữa tín hiệu $x(t)$ và bộ lọc $w(t)$ được định nghĩa:
+\begin{equation}
+    (x * w)(t) = \int_{-\infty}^{\infty} x(\tau) w(t - \tau) d\tau
+\end{equation}
+
+Trên miền rời rạc 2 chiều (như ảnh kỹ thuật số $X \in \mathbb{R}^{H \times W}$ và kernel $K \in \mathbb{R}^{k_h \times k_w}$), các thư viện Deep Learning (PyTorch, TensorFlow) trên thực tế cài đặt phép **Tương quan chéo (Cross-Correlation)** nhưng quy ước gọi chung là Convolution:
+\begin{equation}
+    S(i, j) = (X * K)(i, j) = \sum_{u=0}^{k_h-1} \sum_{v=0}^{k_w-1} X(i+u, j+v) K(u, v) + b
+    \label{eq:conv2d_math}
+\end{equation}
+
+Hai tính chất toán học sống còn phân biệt tầng tích chập với tầng kết nối đầy đủ (Dense / Fully Connected):
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Liên kết cục bộ (Local Connectivity)}: Một nơ-ron ở tầng sau chỉ nhận tín hiệu từ một cửa sổ nhỏ kích thước $k_h \times k_w$ của tầng trước, mô phỏng cơ chế trường tiếp nhận (Receptive Field) của vỏ não thị giác sinh học.
+    \item \textbf{Chia sẻ trọng số (Weight Sharing)}: Cùng một kernel $K$ quét trượt qua mọi vị trí trên ảnh, tạo ra tính bất biến tịnh tiến cục bộ (Equivariance to Translation):
+    \begin{equation}
+        f(\text{Translate}(X)) = \text{Translate}(f(X))
+    \end{equation}
+    Kỹ thuật này giúp giảm số lượng tham số tự do từ mức hàng triệu trong MLP xuống chỉ còn vài nghìn trong CNN, ngăn chặn hiện tượng Overfitting.
+\end{enumerate}
+
+Công thức tính kích thước không gian đầu ra qua tầng tích chập với kích thước đầu vào $H$, phần đệm $P$, kích thước kernel $K$ và bước sải $S$:
+\begin{equation}
+    H_{\text{out}} = \left\lfloor \frac{H + 2P - K}{S} \right\rfloor + 1
+\end{equation}
+
+\subsection{Các hàm thành phần cốt lõi trong CNN}
+Mỗi khối kiến trúc cơ bản trong mạng CNN hiện đại được tạo thành từ tổ hợp 4 hàm toán học cơ bản:
+
+\subsubsection{1. Tích chập nhiều kênh (Multi-Channel Convolution)}
+Với đầu vào $X \in \mathbb{R}^{C_{\text{in}} \times H \times W}$ và tensor trọng số $W \in \mathbb{R}^{C_{\text{out}} \times C_{\text{in}} \times k \times k}$:
+\begin{equation}
+    Y_c(i, j) = \sum_{m=1}^{C_{\text{in}}} \sum_{u=0}^{k-1} \sum_{v=0}^{k-1} X_m(i+u, j+v) W_{c, m}(u, v) + b_c, \quad c \in \{1, \dots, C_{\text{out}}\}
+\end{equation}
+
+\subsubsection{2. Hàm kích hoạt phi tuyến ReLU (Rectified Linear Unit)}
+\begin{equation}
+    f_{\text{ReLU}}(z) = \max(0, z), \quad \frac{\partial f_{\text{ReLU}}}{\partial z} = \begin{cases} 1 & \text{nếu } z > 0 \\ 0 & \text{nếu } z \le 0 \end{cases}
+\end{equation}
+Ưu điểm: Không bị bão hòa gradient ở miền dương (tránh hiện tượng triệt tiêu gradient như hàm Sigmoid hoặc Tanh) và tính toán cực kỳ tối ưu.
+
+\subsubsection{3. Chuẩn hóa theo lô (Batch Normalization)}
+Với mini-batch $\mathcal{B} = \{x_1, \dots, x_m\}$, Batch Normalization chuẩn hóa phân phối đầu vào của mỗi tầng:
+\begin{equation}
+    \mu_{\mathcal{B}} = \frac{1}{m}\sum_{i=1}^m x_i, \quad \sigma_{\mathcal{B}}^2 = \frac{1}{m}\sum_{i=1}^m (x_i - \mu_{\mathcal{B}})^2
+\end{equation}
+\begin{equation}
+    \hat{x}_i = \frac{x_i - \mu_{\mathcal{B}}}{\sqrt{\sigma_{\mathcal{B}}^2 + \epsilon}}, \quad y_i = \gamma \hat{x}_i + \beta = \text{BN}_{\gamma, \beta}(x_i)
+\end{equation}
+Trong đó $\gamma, \beta$ là các tham số học được (scale và shift). BN làm giảm hiện tượng chuyển dịch hiệp biến nội tại (Internal Covariate Shift), cho phép thiết lập tốc độ học (learning rate) lớn hơn.
+
+\subsubsection{4. Phép gộp không gian (Max Pooling \& Average Pooling)}
+Thu gọn kích thước không gian nhằm tăng trường tiếp nhận cho các tầng kế tiếp và tăng tính bất biến với biến dạng hình học:
+\begin{equation}
+    f_{\text{MaxPool}}(X)_{i, j} = \max_{(u, v) \in \Omega(i, j)} X(u, v)
+\end{equation}
+
+\subsection{Biểu diễn Hợp hàm hoàn chỉnh của Basic CNN}
+Mô hình CNN cơ bản (M1) được định nghĩa chính xác dưới dạng chuỗi hợp hàm như sau:
+\begin{equation}
+    \hat{y} = \left( f_{\text{Linear}} \circ f_{\text{Flatten}} \circ f_{\text{Pool}_2} \circ f_{\text{ReLU}_2} \circ f_{\text{BN}_2} \circ f_{\text{Conv}_2} \circ f_{\text{Pool}_1} \circ f_{\text{ReLU}_1} \circ f_{\text{BN}_1} \circ f_{\text{Conv}_1} \right)(X)
+    \label{eq:basic_cnn_full_comp}
+\end{equation}
+
+\begin{lstlisting}[language=Python, caption={Cài đặt mô hình Basic CNN chuẩn hóa dưới dạng hợp hàm PyTorch}]
+class BasicCNN2D(nn.Module):
+    """M1: Basic CNN -- Hop ham cua Conv, BN, ReLU, MaxPool va Linear"""
+    def __init__(self, in_channels=3, num_classes=10):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+        )
+        self.classifier = nn.Sequential(
+            nn.AdaptiveAvgPool2d(1),
+            nn.Flatten(),
+            nn.Linear(64, num_classes)
+        )
+    def forward(self, x):
+        return self.classifier(self.features(x))
+\end{lstlisting}
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 2: CÁC MÔ HÌNH PHÁT TRIỂN CỦA CNN
+% ==============================================================================
+\section{Các mô hình phát triển của CNN: VGG, ResNet và Attention CBAM}
+
+Lịch sử phát triển của kiến trúc học sâu là chuỗi các giải pháp kỹ thuật nhằm khắc phục điểm nghẽn của thế hệ tiền nhiệm:
+\begin{equation}
+    \text{Kiến trúc mới} = \text{Kiến trúc cũ} + \text{Cơ chế giải quyết điểm nghẽn}
+\end{equation}
+
+\subsection{Mô hình VGG-Style: Triết lý xếp chồng $3 \times 3$ và Độ sâu biểu diễn}
+Mô hình AlexNet (2012) sử dụng các kernel kích thước lớn ($11 \times 11, 5 \times 5$). Simonyan \& Zisserman (2014) đề xuất kiến trúc VGG với phát hiện mang tính cách mạng: **Thay thế toàn bộ kernel lớn bằng chuỗi các tầng tích chập nhỏ kích thước $3 \times 3$**.
+
+\subsubsection{Chứng minh toán học về tính tương đương trường tiếp nhận (Receptive Field)}
+Xét 2 tầng tích chập liên tiếp có kernel $3 \times 3$ với bước sải $S=1$:
+\begin{itemize}[leftmargin=*]
+    \item Tầng 1: Mỗi phần tử đầu ra nhìn một vùng $3 \times 3$ trên đầu vào gốc.
+    \item Tầng 2: Mỗi phần tử đầu ra nhìn một vùng $3 \times 3$ trên đầu ra tầng 1. Vùng biên của cửa sổ này mở rộng thêm 1 phần tử về mỗi phía so với tầng 1.
+    \item Trường tiếp nhận hữu hiệu (Effective Receptive Field -- ERF):
+    \begin{equation}
+        R_2 = R_1 + (k - 1) = 3 + (3 - 1) = 5
+    \end{equation}
+\end{itemize}
+Như vậy, 2 tầng $3 \times 3$ có cùng trường tiếp nhận với 1 tầng $5 \times 5$. Tương tự, 3 tầng $3 \times 3$ tương đương 1 tầng $7 \times 7$.
+
+\subsubsection{Lợi thế về số lượng tham số và tính phi tuyến}
+Giả sử số kênh đầu vào và đầu ra đều bằng $C$:
+\begin{itemize}[leftmargin=*]
+    \item Một tầng $5 \times 5$: Số tham số là $5 \times 5 \times C^2 = 25 C^2$.
+    \item Hai tầng $3 \times 3$: Số tham số là $2 \times (3 \times 3 \times C^2) = 18 C^2$. Tiết kiệm được $\frac{25 - 18}{25} = 28\%$ tham số!
+    \item Đối với 3 tầng $3 \times 3$ so với 1 tầng $7 \times 7$: $3 \times 9 C^2 = 27 C^2$ so với $49 C^2$, giảm tới $45\%$ tham số!
+\end{itemize}
+Đặc biệt, 2 tầng $3 \times 3$ có tới **2 hàm kích hoạt phi tuyến ReLU** xen kẽ thay vì chỉ 1, giúp tăng đáng kể năng lực xấp xỉ hàm phức tạp của mạng.
+
+\begin{equation}
+    f_{\text{VGG\_Block}}(X) = \text{MaxPool}\left(\text{ReLU}\left(\text{BN}\left(\text{Conv}_{3\times3}\left(\text{ReLU}\left(\text{BN}\left(\text{Conv}_{3\times3}(X)\right)\right)\right)\right)\right)\right)
+\end{equation}
+
+\subsection{Mô hình ResNet-Style: Giải quyết hiện tượng suy thoái (Degradation Problem)}
+Khi mạng đạt độ sâu vượt quá 20 tầng, việc xếp chồng đơn thuần các tầng tích chập dẫn đến hiện tượng suy thoái (Degradation): **Training Error của mạng sâu hơn lại cao hơn mạng nông hơn**, không phải do Overfitting mà do khó khăn trong tối ưu hóa toán học khi gradient suy giảm.
+
+He et al. (2015) đề xuất kỹ thuật **Học phần dư (Residual Learning)**. Thay vì ép mạng phải học ánh xạ mục tiêu $H(X)$, mạng được tái cấu trúc để học hàm phần dư:
+\begin{equation}
+    F(X) = H(X) - X \iff H(X) = F(X) + X
+    \label{eq:residual_form}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, auto, >=latex]
+    \node (x) [circle, draw, fill=blue!10, inner sep=2pt] {$X$};
+    \node (conv1) [rectangle, draw, fill=gray!10, rounded corners, below of=x, text width=3.8cm, align=center] {Weight Layer (Conv 3x3)};
+    \node (relu1) [rectangle, draw, fill=yellow!20, rounded corners, below of=conv1] {ReLU};
+    \node (conv2) [rectangle, draw, fill=gray!10, rounded corners, below of=relu1, text width=3.8cm, align=center] {Weight Layer (Conv 3x3)};
+    \node (add) [circle, draw, fill=green!20, below of=conv2, node distance=1.8cm] {$+$};
+    \node (relu2) [rectangle, draw, fill=yellow!20, rounded corners, below of=add] {ReLU};
+    \node (out) [circle, draw, fill=blue!10, inner sep=2pt, below of=relu2] {$H(X)$};
+
+    \draw[->, thick] (x) -- (conv1);
+    \draw[->, thick] (conv1) -- (relu1);
+    \draw[->, thick] (relu1) -- (conv2);
+    \draw[->, thick] (conv2) -- node[left] {$F(X)$} (add);
+    \draw[->, thick] (add) -- (relu2);
+    \draw[->, thick] (relu2) -- (out);
+
+    % Skip connection
+    \draw[->, thick, red!80!black] (x.east) -- ++(1.5, 0) |- node[pos=0.25, right] {Identity Shortcut ($X$)} (add.east);
+\end{tikzpicture}
+\caption{Cơ cấu khối phần dư Residual Block với đường tắt Identity Shortcut}
+\label{fig:residual_block}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:residual_block} mô tả cấu trúc của một Residual Block kinh điển. Dòng dữ liệu đầu vào $X$ được chia thành hai nhánh song song: nhánh thứ nhất đi qua chuỗi biến đổi gồm 2 tầng Conv $3 \times 3$, chuẩn hóa BatchNorm và kích hoạt ReLU để học hàm phần dư $F(X)$; nhánh thứ hai là đường truyền tắt đồng nhất (Identity Shortcut) dẫn nguyên vẹn $X$ mà không qua bất kỳ tham số học nào. Hai luồng tín hiệu được cộng gộp theo từng phần tử (element-wise) trước khi qua hàm kích hoạt $\text{ReLU}(F(X) + X)$. Về mặt toán học, cấu trúc này thay đổi mục tiêu tối ưu: thay vì ép mạng phải học xấp xỉ một ánh xạ mục tiêu phức tạp $H(X)$, mạng chỉ cần học phần bù sai lệch $F(X) = H(X) - X$. Nếu một khối tầng không mang lại giá trị gia tăng, bộ tối ưu hóa có thể dễ dàng triệt tiêu trọng số về 0 ($\mathcal{W} \to 0$) để giữ nguyên ánh xạ đồng nhất $H(X) = X$.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Mặc dù Residual Block giải quyết triệt để bài toán suy thoái gradient khi tăng độ sâu (như được chứng minh bằng công thức (\ref{eq:gradient_highway}) ngay dưới đây), phép cộng phần dư $F(X) + X$ vẫn đối xử bình đẳng với mọi kênh đặc trưng và mọi vị trí không gian. Điều này dẫn tới sự lãng phí tài nguyên tính toán khi mạng phân bổ sức mạnh như nhau cho cả vùng vật thể chính và phông nền nhiễu. Manh mối này đặt ra nhu cầu cấp thiết về một cơ chế tự động tái hiệu chuẩn: kênh nào chứa thông tin ngữ nghĩa then chốt (``WHAT'') và tọa độ nào là trọng tâm của vật thể (``WHERE''). Đây chính là động lực phương pháp luận trực tiếp dẫn dắt sang bước phát triển kiến trúc tiếp theo: Module Chú ý Khối Tích chập (CBAM) ở Hình \ref{fig:cbam_architecture}.
+
+\subsubsection{Cơ chế bảo toàn gradient qua đường truyền thẳng Identity}
+Tính đạo hàm hàm mất mát $\mathcal{E}$ theo đầu vào $X$:
+\begin{equation}
+    \frac{\partial \mathcal{E}}{\partial X} = \frac{\partial \mathcal{E}}{\partial H(X)} \frac{\partial H(X)}{\partial X} = \frac{\partial \mathcal{E}}{\partial H(X)} \left( \frac{\partial F(X)}{\partial X} + I \right)
+    \label{eq:gradient_highway}
+\end{equation}
+Trong công thức (\ref{eq:gradient_highway}), ma trận đơn vị $I$ đảm bảo rằng ngay cả khi trọng số của các tầng tích chập suy giảm ($\frac{\partial F}{\partial X} \approx 0$), gradient $\frac{\partial \mathcal{E}}{\partial H(X)}$ vẫn được truyền nguyên vẹn ngược về các tầng trước mà không bị tiêu biến (Vanishing Gradient). Đây chính là "đại lộ thông suốt" (Gradient Highway) cho phép huấn luyện mạng sâu tới hàng trăm tầng.
+
+\subsection{Mô hình Attention CNN (CBAM): Tự động định hướng sự tập trung}
+Mạng CNN truyền thống xử lý mọi kênh đặc trưng và mọi tọa độ không gian một cách bình đẳng. Woo et al. (2018) giới thiệu **CBAM (Convolutional Block Attention Module)** gồm 2 cơ chế kế tiếp:
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=2.2cm, auto, >=latex]
+    \node (x) [rectangle, draw, fill=blue!15, text width=2.5cm, align=center, rounded corners] {Input Feature\\$X \in \mathbb{R}^{C \times H \times W}$};
+    \node (ca) [rectangle, draw, fill=orange!20, text width=2.8cm, align=center, right of=x, node distance=4.0cm, rounded corners] {Channel Attention\\Module ($M_c$)};
+    \node (mul1) [circle, draw, fill=red!20, right of=ca, node distance=2.5cm] {$\otimes$};
+    \node (sa) [rectangle, draw, fill=green!20, text width=2.8cm, align=center, below of=mul1, node distance=2.2cm, rounded corners] {Spatial Attention\\Module ($M_s$)};
+    \node (mul2) [circle, draw, fill=red!20, left of=sa, node distance=2.5cm] {$\otimes$};
+    \node (out) [rectangle, draw, fill=purple!20, text width=2.5cm, align=center, left of=mul2, node distance=3.5cm, rounded corners] {Refined Output\\$Y \in \mathbb{R}^{C \times H \times W}$};
+
+    \draw[->, thick] (x) -- (ca);
+    \draw[->, thick] (ca) -- node[above] {$M_c(X)$} (mul1);
+    \draw[->, thick] (x.north) -- ++(0, 0.6) -| (mul1.north);
+    \draw[->, thick] (mul1) -- node[right] {$X'$} (sa);
+    \draw[->, thick] (sa) -- node[above] {$M_s(X')$} (mul2);
+    \draw[->, thick] (mul1.east) -- ++(0.8, 0) |- (mul2.east);
+    \draw[->, thick] (mul2) -- (out);
+\end{tikzpicture}
+\caption{Quy trình kết hợp tuần tự 2 cơ chế chú ý trong Module CBAM}
+\label{fig:cbam_architecture}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:cbam_architecture} mô tả tiến trình lọc và tinh chế đặc trưng tuần tự hai giai đoạn của module CBAM. Đầu tiên, tensor đặc trưng đầu vào $X \in \mathbb{R}^{C \times H \times W}$ đi qua Module Chú ý Kênh (Channel Attention - $M_c$), sử dụng đồng thời cả hai phép gộp $\text{AvgPool}$ và $\text{MaxPool}$ để gom tụ thông tin không gian, sau đó đi qua mạng nơ-ron đa tầng (MLP) chia sẻ trọng số nhằm sinh ra vector trọng số kênh $M_c(X) \in \mathbb{R}^{C \times 1 \times 1}$. Phép nhân phần tử tạo ra đặc trưng trung gian $X' = M_c(X) \odot X$. Ngay sau đó, $X'$ tiếp tục được đưa vào Module Chú ý Không gian (Spatial Attention - $M_s$), nơi các kênh được nén dọc theo trục độ sâu bằng phép tính trung bình và cực đại qua kênh, rồi chiếu qua một tầng tích chập kích thước lớn $7 \times 7$ để tạo ra bản đồ trọng số không gian $M_s(X') \in \mathbb{R}^{1 \times H \times W}$. Kết quả cuối cùng là tensor $Y = M_s(X') \odot X'$ đã được tái hiệu chuẩn toàn diện cả về nội dung ngữ nghĩa lẫn tọa độ quan sát.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Với việc hoàn thiện cơ sở lý thuyết toán học cho 4 thế hệ kiến trúc (Basic CNN $\to$ VGG $\to$ ResNet $\to$ Attention CBAM), bước tiếp theo là kiểm chứng các giả thuyết lý thuyết trên các miền dữ liệu thực tế khác nhau về bản chất không gian: Liệu mạng sâu có luôn tốt hơn? Cơ chế chú ý phát huy hiệu quả ra sao trên ảnh màu tự nhiên, ảnh chữ số đơn sắc và đặc biệt là dữ liệu bảng y tế? Để giải đáp những câu hỏi này, bước tiếp theo là tiến hành khảo sát và chuẩn bị 3 tập dữ liệu thực nghiệm trong Chương \ref{sec:dataset_survey}.
+
+\subsubsection{1. Chú ý theo Kênh (Channel Attention -- "WHAT is important?")}
+Đặc trưng không gian được nén thông qua đồng thời hai phép gộp AvgPool và MaxPool để bảo toàn thông tin nền lẫn thông tin nổi bật nhất:
+\begin{equation}
+    M_c(X) = \sigma\left( \text{MLP}(\text{AvgPool}(X)) + \text{MLP}(\text{MaxPool}(X)) \right)
+\end{equation}
+\begin{equation}
+    M_c(X) = \sigma\left( W_1 \text{ReLU}(W_0 (X_{\text{avg}}^c)) + W_1 \text{ReLU}(W_0 (X_{\text{max}}^c)) \right)
+\end{equation}
+Đặc trưng trung gian được hiệu chỉnh: $X' = M_c(X) \odot X$.
+
+\subsubsection{2. Chú ý theo Không gian (Spatial Attention -- "WHERE is important?")}
+Nén thông tin trên trục kênh bằng cách tính trung bình và cực đại qua các kênh, nối tiếp (concatenate) và qua 1 tầng tích chập kernel lớn ($7 \times 7$):
+\begin{equation}
+    M_s(X') = \sigma\left( f^{7\times 7}\left( [\text{AvgPool}(X'); \text{MaxPool}(X')] \right) \right)
+\end{equation}
+Đầu ra cuối cùng: $Y = M_s(X') \odot X'$.
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 3: KHẢO SÁT 3 TẬP DỮ LIỆU THỰC NGHIỆM
+% ==============================================================================
+\section{Khảo sát 3 tập dữ liệu thực nghiệm}\label{sec:dataset_survey}
+
+\subsection{Tập dữ liệu ảnh màu tự nhiên CIFAR-10}
+Bộ dữ liệu CIFAR-10 (Canadian Institute for Advanced Research) gồm 60,000 ảnh màu kích thước nhỏ $32 \times 32$ pixels với 3 kênh màu RGB, được chuẩn hóa chia thành 10 lớp cân bằng hoàn hảo (mỗi lớp 6,000 ảnh): \textit{airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/cifar10_samples.png}
+\caption{Ảnh mẫu đại diện 10 lớp đối tượng trong tập dữ liệu CIFAR-10}
+\label{fig:cifar10_samples}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:cifar10_samples} thể hiện các mẫu ảnh trực quan kích thước $32 \times 32$ pixels đại diện cho 10 lớp trong tập CIFAR-10. Phân tích trực quan làm lộ rõ 3 thách thức kỹ thuật lớn: (1) Độ phân giải $32 \times 32$ cực kỳ nhỏ khiến các chi tiết mịn (như mắt động vật, kết cấu lông, vành bánh xe) bị nhòe và trộn lẫn với các pixel lân cận; (2) Phông nền tự nhiên rất phức tạp và đa dạng (ví dụ: máy bay lẫn trong mây trời, tàu thủy lẫn trong sóng nước, hươu và chim lẫn trong tán lá rừng); (3) Sự tương đồng hình thái cao giữa các lớp động vật (mèo và chó có tỷ lệ khuôn mặt tương tự nhau) và phương tiện cơ giới (ô tô và xe tải có cấu trúc bánh và khung gầm tương đồng).
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Thách thức từ phông nền phức tạp và độ phân giải thấp của CIFAR-10 cho thấy mạng nơ-ron rất dễ bị đánh lạc hướng bởi các đặc trưng nhiễu ngoại cảnh. Để có một hệ quy chiếu đối chứng nhằm đánh giá khách quan khả năng học hình thái hình học thuần túy của các kiến trúc mà không bị chi phối bởi màu sắc hay bối cảnh môi trường phức tạp, bước tiếp theo cần khảo sát một tập dữ liệu đơn sắc chuẩn mực, có phông nền đen tuyệt đối và hình dạng nét vẽ rõ ràng: Tập chữ số viết tay MNIST (Hình \ref{fig:mnist_samples}).
+
+\subsection{Tập dữ liệu ảnh chữ số viết tay MNIST}
+MNIST (Modified National Institute of Standards and Technology) là tập chuẩn đối sánh kinh điển trong Computer Vision gồm ảnh đơn sắc Grayscale kích thước $28 \times 28$, biểu diễn các chữ số từ 0 đến 9. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{figures/mnist_samples.png}
+\caption{Ảnh mẫu chữ số viết tay từ 0 đến 9 trong tập dữ liệu MNIST}
+\label{fig:mnist_samples}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:mnist_samples} trình bày các mẫu chữ số viết tay từ 0 đến 9 trong tập dữ liệu MNIST kích thước $28 \times 28$ pixels trên 1 kênh xám (Grayscale). Khác biệt hoàn toàn với CIFAR-10, nền của ảnh MNIST có giá trị pixel xấp xỉ bằng 0 (màu đen), trong khi nét chữ có giá trị cường độ sáng cao (tiến tới 1 sau chuẩn hóa). Đặc trưng phân loại ở đây thuần túy là thông tin hình học và tô-pô cục bộ (đường cong khép kín của số 0 và 8, nét thẳng đứng của số 1, nét uốn lượn của số 2 và 3). Độ tương phản giữa đối tượng và nền đạt mức tối đa, loại trừ hoàn toàn yếu tố nhiễu quang học từ môi trường.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Nếu như cả CIFAR-10 và MNIST đều đại diện cho dữ liệu không gian 2 chiều (nơi các pixel liền kề có mối liên kết chặt chẽ theo tiên đề Spatial Locality), thì một thử thách sư phạm quan trọng trong chương trình học là: *"Liệu cơ chế tích chập và hợp hàm của CNN có thể khái quát hóa và vận hành được trên dữ liệu bảng (Tabular Data) lâm sàng trong y tế hay không?"* Để trả lời câu hỏi thực nghiệm sư phạm này, bước tiếp theo là phân tích khám phá tập dữ liệu bệnh lý đái tháo đường Diabetes CDC (Hình \ref{fig:diabetes_eda}).
+
+\subsection{Tập dữ liệu bảng lâm sàng Diabetes CDC (Thực nghiệm Sư phạm với 1D CNN)}
+Tập dữ liệu Diabetes Health Indicators Dataset (nguồn CDC BRFSS) chứa 21 thuộc tính lâm sàng và lối sống của người dân (HighBP, HighChol, BMI, Smoker, Stroke, Age, GenHlth,...). Nhãn mục tiêu là \texttt{Diabetes\_binary} (0: Không mắc đái tháo đường, 1: Có mắc hoặc tiền đái tháo đường).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{figures/diabetes_eda.png}
+\caption{Phân tích khám phá dữ liệu (EDA): Phân phối nhãn và ma trận tương quan trên tập Diabetes CDC}
+\label{fig:diabetes_eda}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:diabetes_eda} thể hiện kết quả phân tích khám phá dữ liệu (EDA) trên tập Diabetes CDC với 2 biểu đồ thành phần: (1) Biểu đồ phân phối nhãn cho thấy sự mất cân bằng dữ liệu y tế nghiêm trọng: nhóm âm tính (nhãn 0 - không mắc đái tháo đường) chiếm áp đảo xấp xỉ 84\%, trong khi nhóm dương tính (nhãn 1 - có bệnh hoặc tiền đái tháo đường) chỉ chiếm khoảng 16\%; (2) Ma trận nhiệt tương quan Pearson giữa 21 thuộc tính lâm sàng chỉ ra các yếu tố có hệ số tương quan dương mạnh nhất với bệnh lý là huyết áp cao (\texttt{HighBP}), mỡ máu cao (\texttt{HighChol}), chỉ số khối cơ thể (\texttt{BMI}), đánh giá sức khỏe tổng quát (\texttt{GenHlth}) và độ tuổi (\texttt{Age}).
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Từ phân tích EDA, hai vấn đề kỹ thuật bắt buộc phải được giải quyết trong giai đoạn tiếp theo: (1) Do độ mất cân bằng lớp cao, hàm mất mát phải sử dụng `BCEWithLogitsLoss` kết hợp theo dõi chỉ số F1 và AUC thay vì đánh giá đơn thuần bằng Accuracy; (2) Bản chất vector 21 chiều đòi hỏi phải chuyển đổi sang tensor 1D $(B, 1, 21)$ và áp dụng các bộ lọc tích chập 1D tương thích. Nhận thức này hoàn tất khâu khảo sát dữ liệu và mở đường cho bước chuyển tiếp sang Chương \ref{sec:model_architectures} để thiết kế và cài đặt chi tiết 12 mô hình PyTorch tương ứng.
+
+\begin{mybox}{Ghi chú Sư phạm: Bản chất 1D CNN trên Dữ liệu Bảng (Tabular Data)}
+    Theo bài giảng của PGS.TS. Trần Đình Quế, việc áp dụng CNN 1D lên dữ liệu bảng là một **"Teaching Experiment" (Thực nghiệm Sư phạm)** nhằm chứng minh:
+    \begin{enumerate}
+        \item Khung lý thuyết của Deep Learning (hợp hàm) có khả năng tổng quát hóa trên mọi định dạng tensor đầu vào.
+        \item Tuy nhiên, dữ liệu bảng **không có tính liên tục không gian (Spatial Locality)** tự nhiên như pixel ảnh hoặc chuỗi từ vựng NLP. Việc tráo đổi thứ tự hai cột bất kỳ (ví dụ đổi chỗ \texttt{BMI} và \texttt{Age}) không làm thay đổi ngữ nghĩa bài toán, nhưng sẽ làm thay đổi hoàn toàn giá trị tích chập $X * K$!
+        \item Do đó, 1D CNN trên dữ liệu bảng đóng vai trò một bộ trích xuất tổ hợp đặc trưng cục bộ (Local Feature Combinator), thường không vượt trội hơn các mô hình cây quyết định (Gradient Boosting, XGBoost).
+    \end{enumerate}
+\end{mybox}
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 4: THIẾT KẾ & CÀI ĐẶT 12 MÔ HÌNH PYTORCH
+% ==============================================================================
+\section{Thiết kế và cài đặt 12 mô hình PyTorch}\label{sec:model_architectures}
+
+\subsection{Kiến trúc 4 mô hình trên CIFAR-10 và MNIST (CNN 2D)}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l C{2.5cm} C{2.5cm} X}
+\toprule
+\textbf{Mô hình} & \textbf{Params (MNIST)} & \textbf{Params (CIFAR)} & \textbf{Đặc trưng Cấu trúc Cốt lõi} \\
+\midrule
+\textbf{M1: Basic CNN} & 19,658 & 20,234 & 2 khối Conv-BN-ReLU-Pool (32, 64 channels) + FC head \\
+\addlinespace
+\textbf{M2: VGG-Style} & 1,214,410 & 1,215,562 & 3 khối đôi $3 \times 3$ (64, 128, 256) + FC 256 + Dropout(0.5) \\
+\addlinespace
+\textbf{M3: ResNet-Style} & 1,922,762 & 1,923,914 & 3 tầng Residual Blocks + Skip Connections + Downsampling \\
+\addlinespace
+\textbf{M4: CBAM Attention} & 98,064 & 98,640 & 3 khối Conv kết hợp tuần tự Channel \& Spatial Attention \\
+\bottomrule
+\end{tabularx}
+\caption{Quy mô tham số và đặc tả kiến trúc 4 mô hình 2D trên MNIST và CIFAR-10}
+\label{tab:models_2d_spec}
+\end{table}
+
+\begin{lstlisting}[language=Python, caption={Cài đặt khối CBAM (Channel \& Spatial Attention) trên PyTorch}]
+class ChannelAttention2D(nn.Module):
+    def __init__(self, channels, reduction=16):
+        super().__init__()
+        hidden = max(channels // reduction, 4)
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.max_pool = nn.AdaptiveMaxPool2d(1)
+        self.fc = nn.Sequential(
+            nn.Linear(channels, hidden, bias=False),
+            nn.ReLU(inplace=True),
+            nn.Linear(hidden, channels, bias=False)
+        )
+        self.sigmoid = nn.Sigmoid()
+    def forward(self, x):
+        b, c, _, _ = x.shape
+        avg_out = self.fc(self.avg_pool(x).view(b, c))
+        max_out = self.fc(self.max_pool(x).view(b, c))
+        return x * self.sigmoid(avg_out + max_out).view(b, c, 1, 1)
+
+class SpatialAttention2D(nn.Module):
+    def __init__(self, kernel_size=7):
+        super().__init__()
+        self.conv = nn.Conv2d(2, 1, kernel_size, padding=kernel_size//2, bias=False)
+        self.sigmoid = nn.Sigmoid()
+    def forward(self, x):
+        avg_out = torch.mean(x, dim=1, keepdim=True)
+        max_out, _ = torch.max(x, dim=1, keepdim=True)
+        return x * self.sigmoid(self.conv(torch.cat([avg_out, max_out], dim=1)))
+\end{lstlisting}
+
+\subsection{Kiến trúc 4 mô hình 1D CNN trên Dữ liệu Bảng Diabetes}
+Đầu vào $(B, 1, 21)$ được xử lý bởi các toán tử 1D tương ứng: \texttt{Conv1d}, \texttt{BatchNorm1d}, \texttt{MaxPool1d}, \texttt{AdaptiveAvgPool1d}. Hàm mất mát nhị phân \texttt{BCEWithLogitsLoss} kết hợp với ép chiều \texttt{outputs.squeeze(-1)}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l C{2.5cm} C{3.0cm} X}
+\toprule
+\textbf{Mô hình 1D} & \textbf{Tham số (Params)} & \textbf{Loss Function} & \textbf{Cơ chế Đặc thù} \\
+\midrule
+\textbf{M1: Basic 1D} & 6,593 & BCEWithLogitsLoss & 2 tầng Conv1d (32, 64) + MaxPool1d(2) \\
+\textbf{M2: VGG 1D} & 95,681 & BCEWithLogitsLoss & Stacking Conv1d $3 \times 1$ sâu 3 khối + Dropout(0.5) \\
+\textbf{M3: ResNet 1D} & 148,929 & BCEWithLogitsLoss & ResidualBlock1D: $Y = \text{ReLU}(F(X) + X)$ 1 chiều \\
+\textbf{M4: CBAM 1D} & 9,069 & BCEWithLogitsLoss & Channel Attention 1D + Temporal Attention 1D \\
+\bottomrule
+\end{tabularx}
+\caption{Quy mô tham số và đặc tả kiến trúc 4 mô hình 1D CNN trên Diabetes CDC}
+\label{tab:models_1d_spec}
+\end{table}
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 5: KẾT QUẢ THỰC NGHIỆM & ĐỐI CHUẨN SO SÁNH
+% ==============================================================================
+\section{Kết quả thực nghiệm, đối chuẩn số liệu và phân tích chuyên sâu}
+
+\subsection{Bảng tổng hợp đối chuẩn toàn diện 12 thực nghiệm}
+Toàn bộ kết quả thực nghiệm huấn luyện và đánh giá trên tập kiểm thử độc lập được tổng hợp chi tiết trong Bảng \ref{tab:master_benchmark}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l l C{2.0cm} C{1.8cm} C{2.0cm} C{1.8cm}}
+\toprule
+\textbf{Tập dữ liệu} & \textbf{Kiến trúc Mô hình} & \textbf{Test Acc (\%)} & \textbf{Macro F1} & \textbf{Số Tham số} & \textbf{Thời gian (s)} \\
+\midrule
+\multirow{4}{*}{\textbf{CIFAR-10}} 
+ & Basic CNN & 30.93\% & 0.2825 & 20,234 & 5.15s \\
+ & VGG-style CNN & 28.67\% & 0.2555 & 1,215,562 & 9.20s \\
+ & ResNet-style CNN & 32.53\% & 0.2984 & 1,923,914 & 9.75s \\
+ & \textbf{Attention CNN (CBAM)} & \textbf{35.20\%} & \textbf{0.3262} & \textbf{98,640} & \textbf{7.54s} \\
+\midrule
+\multirow{4}{*}{\textbf{MNIST}} 
+ & Basic CNN & 42.00\% & 0.3650 & 19,658 & 7.35s \\
+ & \textbf{VGG-style CNN} & \textbf{95.25\%} & \textbf{0.9527} & 1,214,410 & 10.05s \\
+ & ResNet-style CNN & 94.13\% & 0.9414 & 1,922,762 & 13.02s \\
+ & \textbf{Attention CNN (CBAM)} & \textbf{93.00\%} & \textbf{0.9302} & \textbf{98,064} & \textbf{8.57s} \\
+\midrule
+\multirow{4}{*}{\textbf{Diabetes CDC}} 
+ & Basic CNN 1D & 79.68\% & 0.6036 & 6,593 & 7.22s \\
+ & VGG-style CNN 1D & 80.03\% & 0.6106 & 95,681 & 6.58s \\
+ & \textbf{ResNet-style CNN 1D} & \textbf{80.52\%} & \textbf{0.6368} & 148,929 & 7.14s \\
+ & Attention CNN 1D (CBAM) & 80.22\% & \textbf{0.6730} & \textbf{9,069} & 7.11s \\
+\bottomrule
+\end{tabularx}
+\caption{Bảng đối chuẩn tổng hợp hiệu năng 12 thực nghiệm của 4 kiến trúc CNN trên 3 tập dữ liệu}
+\label{tab:master_benchmark}
+\end{table}
+
+\subsection{Phân tích kết quả trên từng tập dữ liệu}
+
+\subsubsection{1. Tập dữ liệu CIFAR-10}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/cifar10_training_curves.png}
+\caption{Đường cong hàm mất mát (Loss) và độ chính xác (Accuracy) theo Epoch trên CIFAR-10}
+\label{fig:cifar10_curves}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:cifar10_curves} thể hiện sự tiến triển của hàm mất mát Cross-Entropy (Loss) và độ chính xác (Accuracy) trên cả tập huấn luyện và kiểm thử của 4 kiến trúc qua 20 epochs trên CIFAR-10. Mô hình Basic CNN nhanh chóng rơi vào trạng thái bão hòa (underfitting) với test loss dừng lại ở mức cao 1.8841 và test accuracy chỉ đạt 30.93\% do dung lượng biểu diễn và trường tiếp nhận không đủ bao quát các đối tượng $32 \times 32$. Mô hình VGG-Style đạt train loss thấp nhất (hội tụ nhanh nhất trên tập huấn luyện), nhưng đường test loss bắt đầu phân kỳ và tăng dần từ epoch thứ 8, biểu hiện rõ rệt của hiện tượng Overfitting do mạng quá nặng (1.25 triệu tham số) so với lượng dữ liệu đào tạo. Mô hình ResNet-Style duy trì đường cong ổn định, không bị phân kỳ loss nhờ đường tắt identity. Đáng chú ý nhất, mô hình Attention CNN (CBAM) đạt độ dốc giảm test loss ấn tượng nhất (chạm đáy 1.7828) và đạt độ chính xác kiểm thử cao nhất toàn bộ thí nghiệm (35.20\%).
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Đường cong học tập đã chứng minh tính ưu việt của mô hình Attention CBAM về khả năng khái quát hóa tổng thể. Tuy nhiên, chỉ số Accuracy 35.20\% là một thước đo gộp trung bình toàn bộ 10 lớp; nó chưa thể lý giải được: *"Mô hình đang phân biệt xuất sắc ở những nhóm đối tượng nào, và nguyên nhân cốt lõi gây ra lỗi dự đoán nằm ở những cặp lớp đối tượng nào?"* Để trả lời câu hỏi định lượng sâu này, bước tiếp theo bắt buộc phải đi vào khảo sát Ma trận nhầm lẫn (Confusion Matrix) ở Hình \ref{fig:cifar10_cm}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/cifar10_confusion_matrices.png}
+\caption{Ma trận nhầm lẫn (Confusion Matrix) của 4 mô hình trên CIFAR-10}
+\label{fig:cifar10_cm}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:cifar10_cm} đối chiếu ma trận nhầm lẫn chuẩn hóa của cả 4 mô hình trên 10 lớp của CIFAR-10. Phân tích chi tiết dọc đường chéo chính xác nhận Attention CNN sở hữu các ô chéo có độ sáng đồng đều và đậm nét nhất, đặc biệt vượt trội ở các lớp phương tiện giao thông (\texttt{ship}: 58.7\%, \texttt{automobile}: 43.1\%, \texttt{truck}: 40.5\%). Đáng chú ý, phân tích các ô nằm ngoài đường chéo chính làm lộ rõ hai "siêu cụm nhầm lẫn" kinh điển:
+(1) Cụm động vật bốn chân: Lớp \texttt{cat} bị dự đoán nhầm sang \texttt{dog} (14.2\% ở Basic CNN và 12.8\% ở VGG); lớp \texttt{deer} bị nhầm sang \texttt{horse} và \texttt{bird};
+(2) Cụm phương tiện giao thông: Lớp \texttt{truck} thường xuyên bị nhận diện nhầm thành \texttt{automobile} do chia sẻ đặc trưng bánh xe và khung kim loại. Mô hình CBAM nhờ có Spatial Attention đã giảm thiểu đáng kể tỷ lệ nhầm lẫn này bằng cách tập trung vào hình thái đường viền thùng hàng của xe tải thay vì chỉ nhìn vào bánh xe.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Kết quả trên CIFAR-10 đã làm sáng tỏ hành vi của các mô hình trong điều kiện ảnh màu tự nhiên có phông nền rối rắm và độ phân giải thấp. Bước tiếp theo là kiểm nghiệm hành vi của 4 kiến trúc trên một bài toán phân loại ảnh đơn giản hơn, không bị ảnh hưởng bởi phông nền phức tạp, để xem liệu mô hình sâu như VGG và ResNet có bộc lộ sức mạnh vượt trội khi đặc trưng thuần túy là các nét vẽ hình học hay không. Điều này dẫn dắt sang phân tích đường cong học tập trên tập dữ liệu chữ số MNIST ở Hình \ref{fig:mnist_curves}.
+
+\subsubsection{2. Tập dữ liệu MNIST}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/mnist_training_curves.png}
+\caption{Đường cong hàm mất mát (Loss) và độ chính xác (Accuracy) theo Epoch trên MNIST}
+\label{fig:mnist_curves}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:mnist_curves} ghi nhận diễn biến huấn luyện trên tập dữ liệu chữ số viết tay MNIST. Biểu đồ thể hiện một sự phân hóa cực kỳ sâu sắc và kịch tính: Mô hình Basic CNN chỉ đạt độ chính xác khiêm tốn 42.00\% sau 3 epochs với hàm mất mát giảm rất chậm; nguyên nhân là do chỉ với 2 tầng tích chập nông, trường tiếp nhận không đủ bao quát toàn bộ cấu trúc nét chữ $28 \times 28$. Ngược lại, cả 3 mô hình phát triển (VGG, ResNet và Attention CBAM) đều thể hiện bước nhảy vọt thần tốc: Test Loss lao dốc thẳng đứng xuống dưới 0.25 chỉ sau epoch đầu tiên, và Test Accuracy nhanh chóng vượt ngưỡng 93.0\% - 95.25\%. Trong đó, VGG-Style dẫn đầu với độ chính xác 95.25\% và loss thấp nhất 0.1558.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Khi các mô hình phát triển đều đạt độ chính xác rất cao (>93\%), chỉ số Accuracy tổng thể có xu hướng tiệm cận mức bão hòa và che giấu các sai số cục bộ. Do đó, bước tiếp theo cần phải "soi kính hiển vi" vào ma trận nhầm lẫn của MNIST (Hình \ref{fig:mnist_cm}) nhằm phân tích chi tiết xem các nét chữ viết tay có độ biến dạng tô-pô như thế nào vẫn có thể đánh lừa được mạng nơ-ron sâu.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/mnist_confusion_matrices.png}
+\caption{Ma trận nhầm lẫn (Confusion Matrix) của 4 mô hình trên MNIST}
+\label{fig:mnist_cm}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:mnist_cm} thể hiện ma trận nhầm lẫn trên tập kiểm thử 4,000 ảnh MNIST. Đường chéo chính của VGG, ResNet và CBAM gần như đạt độ chính xác hoàn hảo ở các chữ số có hình thái bất biến rõ ràng: Số \texttt{0} (98.2\%), Số \texttt{1} (99.1\%), Số \texttt{6} (97.4\%). Tuy nhiên, biểu đồ chỉ ra chính xác các điểm lỗi tập trung tại các cặp số có cấu trúc hình học tương đồng do phong cách viết tay cá nhân:
+(1) Chữ số \texttt{4} bị nhầm sang \texttt{9} khi nét gạch ngang trên đỉnh không kín;
+(2) Chữ số \texttt{7} bị nhầm sang \texttt{1} khi nét gạch ngang trên quá ngắn hoặc thiếu nét gạch phụ giữa thân;
+(3) Chữ số \texttt{3} và \texttt{5} có tỷ lệ nhầm lẫn qua lại nhỏ do chia sẻ các đường cong bán nguyệt phía dưới.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Như vậy, khảo nghiệm trên 2 miền ảnh 2D (CIFAR-10 và MNIST) đã chứng minh đầy đủ quy luật: Trong không gian ảnh có tính liên tục cục bộ, tăng độ sâu (VGG, ResNet) hoặc bổ sung cơ chế chú ý (CBAM) mang lại bước nhảy vọt về độ chính xác. Bước tiếp theo là kiểm chứng giả thuyết sư phạm: *"Điều gì sẽ xảy ra khi ta ép các kiến trúc tích chập này hoạt động trên một miền dữ liệu hoàn toàn không có tính chất không gian liên tục -- cụ thể là dữ liệu bảng y tế 1D?"* Bước chuyển dịch phương pháp luận này dẫn dắt trực tiếp tới thực nghiệm trên tập Diabetes CDC ở Hình \ref{fig:diabetes_curves}.
+
+\subsubsection{3. Tập dữ liệu Diabetes CDC (1D CNN)}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/diabetes_training_curves.png}
+\caption{Đường cong hàm mất mát (BCE Loss) và độ chính xác theo Epoch trên Diabetes CDC}
+\label{fig:diabetes_curves}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:diabetes_curves} mô tả đường cong hàm mất mát Binary Cross-Entropy (BCE Loss) và độ chính xác của 4 biến thể 1D CNN trên 21 thuộc tính lâm sàng của tập dữ liệu Diabetes CDC. Khác biệt hoàn toàn với sự phân hóa mạnh mẽ trên ảnh 2D, đồ thị trên dữ liệu bảng cho thấy sự đồng quy đáng kinh ngạc giữa cả 4 mô hình: BCE Loss đều giảm mượt mà từ ~0.55 xuống ~0.43 - 0.44 và Test Accuracy đều hội tụ ổn định trong biên độ hẹp từ 79.68\% đến 80.52\%. Mô hình ResNet 1D đạt độ chính xác cao nhất (80.52\%), nhưng mô hình Basic 1D đơn giản nhất cũng đạt tới 79.68\% (chênh lệch chưa đầy 0.9\%).
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Tuy nhiên, như đã phân tích từ khâu EDA ở Hình \ref{fig:diabetes_eda}, tập dữ liệu y tế này có tỷ lệ mất cân bằng lớn (84\% nhãn 0 vs 16\% nhãn 1). Một mô hình tầm thường chỉ dự đoán toàn bộ nhãn 0 cũng đã có thể đạt 84\% Accuracy! Do đó, đường cong Accuracy chưa đủ cơ sở để kết luận mạng có thực sự học được năng lực chẩn đoán bệnh hay không. Bước tiếp theo bắt buộc phải kiểm tra Đường cong ROC (Receiver Operating Characteristic) và diện tích dưới đường cong (AUC) ở Hình \ref{fig:diabetes_roc} để đánh giá độ nhạy (Sensitivity) và độ đặc hiệu (Specificity) ở mọi ngưỡng quyết định.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.62\textwidth]{figures/diabetes_roc_curves.png}
+\caption{Đường cong ROC và chỉ số AUC đối chuẩn 4 mô hình 1D CNN trên Diabetes CDC}
+\label{fig:diabetes_roc}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:diabetes_roc} trình bày đường cong ROC đối chuẩn 4 mô hình 1D CNN trên không gian giữa Tỷ lệ dương tính thật (TPR) và Tỷ lệ dương tính giả (FPR). Cả 4 đường cong đều uốn cong mạnh lên góc trên bên trái và nằm cách rất xa đường chéo ngẫu nhiên (đường cơ sở AUC = 0.50). Chỉ số AUC của cả 4 mô hình đều đạt mức xuất sắc trong bài toán y sinh: ResNet 1D đạt AUC = 0.826, Attention 1D đạt AUC = 0.821, VGG 1D đạt AUC = 0.819 và Basic 1D đạt AUC = 0.812. Kết hợp với chỉ số Macro F1 trong Bảng \ref{tab:master_benchmark}, Attention 1D đạt điểm F1 cao nhất (0.6730), chứng minh cơ chế chú ý theo kênh 1D đã tự động khuếch đại trọng số cho các thuộc tính bệnh học then chốt (như \texttt{BMI}, \texttt{HighBP}) để nhận diện chính xác bệnh nhân đái tháo đường trong lớp thiểu số.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Đến đây, toàn bộ các phân tích thực nghiệm chi tiết trên từng tập dữ liệu riêng biệt đã hoàn thành. Bước tiếp theo trong quy trình nghiên cứu khoa học là tổng hợp tất cả các kết quả phân tán lên các trục quy chiếu đa chiều để rút ra bức tranh tổng thể về: Mối tương quan hiệu năng, Quy mô tham số mô hình và Tính tối ưu Pareto. Quá trình tổng hợp này bắt đầu bằng việc đối sánh trực quan Test Accuracy giữa 4 kiến trúc trên cả 3 miền dữ liệu ở Hình \ref{fig:overall_acc}.
+
+\subsection{So sánh tổng hợp và Phân tích đường biên Pareto}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/overall_accuracy_comparison.png}
+\caption{Biểu đồ cột so sánh độ chính xác Test Accuracy của 4 kiến trúc trên 3 tập dữ liệu}
+\label{fig:overall_acc}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:overall_acc} biểu diễn biểu đồ cột so sánh tổng thể độ chính xác Test Accuracy của 4 kiến trúc trên 3 miền dữ liệu thực nghiệm. Biểu đồ làm nổi bật 3 quy luật thực nghiệm:
+(1) Trên CIFAR-10: Attention CBAM độc chiếm vị trí cao nhất (35.20\%), vượt trội hơn ResNet (32.53\%) và VGG (28.67\%);
+(2) Trên MNIST: VGG (95.25\%) và ResNet (94.13\%) vượt trội hoàn toàn so với Basic CNN (42.00\%), khẳng định vai trò sống còn của độ sâu mạng trong việc học biểu diễn nét chữ;
+(3) Trên Diabetes CDC: Cả 4 mô hình đều đạt hiệu năng tương đương nhau quanh ngưỡng 80\%, cho thấy hiệu ứng bão hòa hiệu năng của kiến trúc tích chập trên dữ liệu bảng.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Mặc dù biểu đồ độ chính xác phản ánh trực quan năng lực phân loại, nó lại hoàn toàn "che giấu" cái giá phải trả về mặt tài nguyên tính toán (Computational Budget). Một mô hình đạt 95\% độ chính xác nhưng cần hàng triệu trọng số có thể hoàn toàn bất khả thi khi triển khai trên các thiết bị nhúng hay biên (Edge Devices). Để có cái nhìn công bằng về chi phí phần cứng, bước tiếp theo là khảo sát biểu đồ quy mô tham số học ở Hình \ref{fig:overall_params}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/overall_parameters_comparison.png}
+\caption{So sánh quy mô tham số (thang đo Logarithm) giữa các mô hình}
+\label{fig:overall_params}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:overall_params} so sánh số lượng tham số học (Trainable Parameters) của các mô hình trên thang đo Logarithm cơ số 10. Sự chênh lệch về quy mô tham số là cực kỳ ấn tượng:
+Mô hình Basic CNN chỉ sở hữu từ 6,529 tham số (1D) đến 20,202 tham số (2D);
+Trong khi đó, VGG-Style (1.25 triệu tham số) và ResNet-Style (1.86 triệu tham số) có kích thước lớn gấp gần 100 lần so với Basic CNN do việc duy trì các khối tích chập sâu và nhiều kênh (64 $\to$ 128 $\to$ 256);
+Đặc biệt, Attention CNN (CBAM) chỉ tiêu tốn 9,058 tham số (1D) và 98,170 tham số (2D). Cơ chế chú ý chỉ bổ sung các tầng MLP thu hẹp chiều (reduction ratio = 16) và tầng tích chập $7 \times 7$ đơn kênh, giúp tiết kiệm tài nguyên bộ nhớ từ 12 đến 20 lần so với VGG và ResNet.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Sự tương phản gay gắt giữa Độ chính xác (Hình \ref{fig:overall_acc}) và Quy mô tham số (Hình \ref{fig:overall_params}) đặt ra câu hỏi thiết kế hệ thống quan trọng nhất: *"Kiến trúc nào đạt hiệu quả cao nhất trên từng đơn vị tham số được đầu tư?"* Để trả lời câu hỏi cốt lõi này, bước tiếp theo bắt buộc phải kết hợp đồng thời cả hai trục chỉ số trên đồ thị phân tán để thiết lập Đường biên tối ưu Pareto (Pareto Efficiency Frontier) ở Hình \ref{fig:pareto_frontier}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{figures/accuracy_parameters_pareto.png}
+\caption{Đường cong đánh đổi Pareto: Năng lực biểu diễn (Accuracy) so với Chi phí Tham số (Log scale)}
+\label{fig:pareto_frontier}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:pareto_frontier} định vị 12 mô hình thực nghiệm trên mặt phẳng Pareto: Trục hoành là Quy mô tham số (thang đo Log biểu thị chi phí) và Trục tung là Test Accuracy (năng lực phân loại). Một mô hình được định nghĩa là tối ưu Pareto (Pareto Optimal) nếu không tồn tại bất kỳ mô hình nào khác có độ chính xác cao hơn mà lại tiêu tốn ít tham số hơn nó. Biểu đồ Pareto xác lập một kết luận phương pháp luận đanh thép:
+Mô hình Attention CNN (CBAM) luôn nằm trên đường biên Pareto tối ưu ở cả 3 miền dữ liệu. Trên CIFAR-10, CBAM là điểm đỉnh tuyệt đối (độ chính xác cao nhất với chỉ 98k tham số, trong khi các mô hình 1.2M - 1.8M tham số đều nằm ở vùng dưới biên Pareto); trên Diabetes, CBAM 1D chỉ cần 9k tham số để đạt F1 tối đa. Điều này chứng minh rằng việc định hướng sự chú ý ("Feature Refinement") mang lại lợi ích hiệu năng vượt trội hơn nhiều so với việc mở rộng độ sâu hoặc độ rộng kênh một cách mù quáng.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Sau khi đường biên Pareto đã xác định được mô hình tối ưu về tỷ lệ hiệu quả/chi phí, bước cuối cùng trong tiến trình phân tích thực nghiệm là cung cấp một góc nhìn trực quan cô đọng nhất, tích hợp toàn bộ không gian thử nghiệm thành một bảng nhiệt tổng thể. Điều này dẫn dắt sang Heatmap ma trận hiệu năng ở Hình \ref{fig:overall_heatmap}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/overall_heatmap.png}
+\caption{Ma trận nhiệt hiệu năng (Heatmap) thể hiện mối tương quan giữa Tập dữ liệu và Kiến trúc}
+\label{fig:overall_heatmap}
+\end{figure}
+
+\noindent\textbf{Phân tích chi tiết biểu đồ:} Hình \ref{fig:overall_heatmap} biểu diễn ma trận nhiệt (Heatmap) hai chiều tổng hợp kết quả của toàn bộ đề tài: Hàng đại diện cho 3 Tập dữ liệu thực nghiệm và Cột đại diện cho 4 Họ kiến trúc CNN. Các sắc thái màu sắc trực quan hóa sự tương tác giữa miền dữ liệu và kiến trúc:
+(1) Cột Basic CNN thể hiện sự yếu thế rõ rệt trên ảnh (tông màu nhạt trên MNIST 0.4200 và CIFAR-10 0.3093);
+(2) Hàng MNIST thể hiện sự bứt phá rực rỡ nhất khi chuyển từ mạng nông sang các mạng sâu (VGG, ResNet, CBAM đều >0.93);
+(3) Hàng Diabetes CDC duy trì dải màu vàng đồng nhất quanh ngưỡng 0.80 trên mọi cột kiến trúc, minh chứng cho tính bão hòa của phép tích chập trên dữ liệu bảng;
+(4) Cột Attention CBAM giữ vững phong độ ổn định và điểm số dẫn đầu trên CIFAR-10 và Diabetes.
+
+\noindent\textbf{Mối quan hệ và chuyển tiếp sang bước tiếp theo:} Bức tranh toàn cảnh thu được từ Ma trận nhiệt khép lại trọn vẹn toàn bộ phần phân tích định lượng và định tính của Chương 5. Tất cả các dữ kiện thực nghiệm thu được từ 15 hình ảnh minh họa chính là nền tảng thực chứng vững chắc để tiến sang Chương \ref{sec:conclusion} (Kết luận \& Đề xuất phương pháp luận), nơi các nguyên lý toán học về hợp hàm, liên kết cục bộ và sự tiến hóa kiến trúc được tổng kết thành các bài học kinh nghiệm sâu sắc cho việc phát triển các hệ thống thông minh tương lai.
+
+\newpage
+
+% ==============================================================================
+% CHƯƠNG 6: KẾT LUẬN & BÀI HỌC PHƯƠNG PHÁP LUẬN
+% ==============================================================================
+\section{Kết luận chung và bài học phương pháp luận}\label{sec:conclusion}
+
+Báo cáo kỹ thuật Assignment 05 đã hoàn thành toàn diện các mục tiêu đề ra cả về phương diện lý thuyết lẫn khảo nghiệm thực tế:
+
+\subsection{Các kết luận khoa học chính}
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Deep Learning là Hợp hàm}: Mọi kiến trúc CNN dù phức tạp đến đâu đều được hợp thành từ chuỗi các phép biến đổi toán học khả vi: tích chập, phi tuyến, chuẩn hóa, gộp và chú ý.
+    \item \textbf{Cơ chế tiến hóa kiến trúc}:
+    \begin{itemize}
+        \item Basic CNN $\to$ VGG: Mở rộng trường tiếp nhận và gia tăng tính phi tuyến nhờ xếp chồng các kernel nhỏ $3 \times 3$.
+        \item VGG $\to$ ResNet: Phá vỡ rào cản suy thoái gradient bằng cơ chế cộng tắt identity shortcut $Y = F(X) + X$.
+        \item ResNet $\to$ Attention (CBAM): Chuyển từ xử lý đồng đều sang tinh chọn đặc trưng theo chiều Kênh ("WHAT") và Không gian ("WHERE").
+    \end{itemize}
+    \item \textbf{Đặc thù miền dữ liệu}: Phép tích chập phát huy tối đa sức mạnh trên dữ liệu có tương quan không gian liên tục (2D Image), trong khi đối với dữ liệu bảng (Tabular), 1D CNN là một công cụ thử nghiệm sư phạm giá trị nhưng cần cân nhắc chi phí tính toán so với các mô hình cây quyết định truyền thống.
+\end{enumerate}
+
+\subsection{Lời cảm ơn}
+Sinh viên xin trân trọng gửi lời cảm ơn sâu sắc tới **PGS.TS. Trần Đình Quế** vì những bài giảng uyên bác, giàu tính gợi mở và định hướng phương pháp luận khoa học nghiêm cẩn trong suốt học phần \textit{Phát triển các Hệ thống Thông minh}.
+
+% ==============================================================================
+% TÀI LIỆU THAM KHẢO
+% ==============================================================================
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{TÀI LIỆU THAM KHẢO}
+\begin{thebibliography}{99}
+\bibitem{que2026dl} Trần Đình Quế (2026), \textit{Bài giảng Phát triển các Hệ thống Thông minh: Deep Learning as Function Composition \& Convolutional Neural Networks}, Học viện Công nghệ Bưu chính Viễn thông (PTIT).
+\bibitem{simonyan2014very} Simonyan, K., \& Zisserman, A. (2014), "Very deep convolutional networks for large-scale image recognition", \textit{arXiv preprint arXiv:1409.1556}.
+\bibitem{he2016deep} He, K., Zhang, X., Ren, S., \& Sun, J. (2016), "Deep residual learning for image recognition", \textit{Proceedings of the IEEE conference on computer vision and pattern recognition (CVPR)}, pp. 770--778.
+\bibitem{woo2018cbam} Woo, S., Park, J., Lee, J. Y., \& Kweon, I. S. (2018), "CBAM: Convolutional block attention module", \textit{Proceedings of the European conference on computer vision (ECCV)}, pp. 3--19.
+\bibitem{krizhevsky2009learning} Krizhevsky, A. (2009), "Learning multiple layers of features from tiny images", \textit{Technical report, University of Toronto}.
+\bibitem{lecun1998gradient} LeCun, Y., Bottou, L., Bengio, Y., \& Haffner, P. (1998), "Gradient-based learning applied to document recognition", \textit{Proceedings of the IEEE}, 86(11), pp. 2278--2324.
+\bibitem{ioffe2015batch} Ioffe, S., \& Szegedy, C. (2015), "Batch normalization: Accelerating deep network training by reducing internal covariate shift", \textit{International Conference on Machine Learning (ICML)}, pp. 448--456.
+\end{thebibliography}
+
+\end{document}
